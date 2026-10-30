@@ -136,9 +136,12 @@ The installer backs up existing agent files, never overwrites `AGENTS.md`, and n
 
 | Change | Review |
 |---|---|
-| <=2 files, <=80 lines, no critical path | one `reviewer-correctness` |
-| >2 files or >80 lines | `reviewer-correctness` + `reviewer-adversarial` in parallel |
+| default (all non-critical changes) | one `reviewer-correctness` |
+| diff > 5 files or > 300 lines | `reviewer-correctness` + `reviewer-adversarial` in parallel |
 | auth / payments / migrations / public API / concurrency | A/B + full tests, regardless of size |
+| user explicitly asks for A/B | A/B |
+
+Review is a gate, not a loop. At most two rounds: round 1 fixes BLOCKER/MAJOR only; round 2 confirms the fix; after that, remaining MINOR/NIT are recorded and the change is handed back to the user. New features or API changes raised during review are follow-ups, not blockers.
 
 Independence rules:
 

@@ -48,20 +48,30 @@ permissions:
 3. worker 第一步先 session_move 到自己的 worktree，下一步再动手；完成后必须 `git add -A && git commit -m "<module>: <summary>"`，并报告分支名和 commit sha。未提交的 worktree 视为未完成。
 4. worker 完成后，用 execute 调 session_move 把它移回主工作区，再让 merger 清理 worktree。
 5. 全部完成后派 merger。merger 先确认每个 worktree clean（没有未提交改动），再按依赖顺序合并、跑测试、清理。
-6. 合并后的整体 diff 再跑 verifier + A/B 审查。
+6. 合并后的整体 diff 再跑 verifier，并按审查分级决定是否 A/B。
 
 ## 审查分级（合并后或单会话完成后）
-0. 多文件任务的 todo 必须包含 review 步骤；合并后必须调用 reviewer-correctness（大改再加 reviewer-adversarial）；未 review 不得说完成。
+0. 多文件任务的 todo 必须包含 review 步骤；未 review 不得说完成。
 1. 让 verifier 返回 DIFF、CRITICAL_PATHS、SMOKE、FAILING_COUNT。
-2. 小改：≤2 文件、≤80 行、CRITICAL_PATHS 为空 → 1 个 reviewer-correctness。
-3. 其余：reviewer-correctness + reviewer-adversarial 并行，互不共享发现。
-4. 关键路径（auth/payments/migrations/public API/concurrency）→ 必须 A/B + full tests，不论行数。
-5. 汇总：去重、按严重度排序、冲突看证据裁决；有 BLOCKER 就回 worker。
+2. 默认只跑 1 个 reviewer-correctness。
+3. 只有以下情况才加 reviewer-adversarial：
+   - 关键路径：auth / payments / migrations / public API / concurrency
+   - diff > 5 文件或 > 300 行
+   - 用户明确要求 A/B
+   A/B 时两个 reviewer 并行，互不共享发现。
+4. 审查是门禁，不是循环。最多 2 轮：
+   - 第 1 轮：只修 BLOCKER / MAJOR。
+   - 第 2 轮：只确认修复，不扩大范围。
+   - 第 2 轮后仍有 MINOR / NIT：记录并结束，交给用户。
+   - 同一问题连续出现两次：停止，交给用户。
+   - reviewer 提出的新功能 / 新 API / 新重构：记为 follow-up，不在本轮实现。
+5. 汇总：去重、按严重度排序、冲突看证据裁决；有 BLOCKER 才回 worker。
+6. 如果当前会话有 goal：先确认 objective 有具体 done-when。开放式 goal 会无限循环；必要时先 `/goal pause`，把目标改成可验收的，或改用普通任务。
 
 ## 硬规则
 - 不要尝试 edit/write/shell，它们会被拒绝。
 - 并行写最多 3 个，只读 agent 最多 6 个。
 - 同一个文件永远只有一个写者。
 - 每个阶段结束立刻更新 todo。
-- 说「完成」之前：有可执行检查的改动必须有 verifier 的 PASS；纯文本 read-back 要标明。大改还要 reviewer 的 APPROVE。
+- 说「完成」之前：有可执行检查的改动必须有 verifier 的 PASS；纯文本 read-back 要标明。A/B 改动还要 reviewer 的 APPROVE。
 - 子 agent 返回超过 200 行，要求它压缩后再继续。

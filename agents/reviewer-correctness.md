@@ -33,3 +33,6 @@ FINDINGS:
 COVERAGE: <检查了哪些文件/路径；哪些没覆盖>
 
 没有发现就写 `FINDINGS: none`，不要凑数。不要修改任何文件，不要跑测试（verifier 负责）。
+只把 BLOCKER / MAJOR 当作需要返工的问题；MINOR / NIT 只记录，不要求再改一轮。不要为了显得严格而制造新问题；没有 BLOCKER/MAJOR 就 APPROVE。
+审查范围只限当前 diff。新功能、新 API、新重构记为 follow-up，不作为 BLOCKER。
+BLOCKER 必须给出可复现的具体失败场景（输入、状态、命令）；只有推测或「可能更好」的，标 MINOR/NIT，不阻塞。

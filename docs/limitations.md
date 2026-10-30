@@ -85,7 +85,7 @@ If an OpenCode release breaks the pack, the fix is a change to agent files or th
 
 ## 9. Smaller caveats
 
-- **Review cost.** A/B review doubles reviewer tokens on large diffs. The threshold (2 files / 80 lines) is a heuristic, not a measurement.
+- **Review cost.** A/B review doubles reviewer tokens on large diffs. The threshold (>5 files or >300 lines, plus critical paths) is a heuristic, not a measurement.
 - **Reviewer quality.** Two reviewers with the same model share the same blind spots. Different prompts reduce, but do not eliminate, correlated misses.
 - **No background job management.** If a worker session dies mid-task, its worktree and branch remain. Cleanup is manual.
 - **No dependency graph between modules.** Merge order is decided by the orchestrator, not by a build graph; coupled modules must be merged in the order the orchestrator chooses.

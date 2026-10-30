@@ -103,7 +103,9 @@ opencode
 - **Empty directory shells.** After `worktree_remove`, the two worktree directories still existed as empty folders. Git state was clean. They can be deleted after the session that holds them ends or after an app restart.
 - **Merge ordering.** The two branches touched disjoint files, so order did not matter. With overlapping files the orchestrator must go serial; the pack does not attempt semantic conflict resolution beyond trivial cases.
 
-## Scenario 4 - four files, larger change
+## Scenario 4 - four files, historical A/B run (0.1.1)
+
+> **Policy note (0.1.2).** A/B is now reserved for critical paths, diffs over 5 files or 300 lines, or an explicit user request. The four-file run below was executed under the 0.1.1 threshold; under 0.1.2 it would get a single correctness review. To reproduce the A/B path, use a critical-path file or a six-file change.
 
 **Purpose.** Check the review escalation path: one worker for a multi-file change, then two independent reviewers in parallel.
 

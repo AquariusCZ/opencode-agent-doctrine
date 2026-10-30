@@ -126,13 +126,13 @@ git worktree remove <worktree-path> --force
 git branch -D work/<module>
 ```
 
-## Scenario 4 - four files, larger change
+## Scenario 4 - critical-path change (A/B)
 
 **Steps**
 
 1. Confirm a clean tree.
 2. Select `orchestrator` and send:
-   `Refactor <module> across <file1> <file2> <file3> <file4>. Keep behaviour identical. Run <check>.`
+   `Change <file under src/auth/> to <behaviour>. Run <check>.`
 3. After the verifier reports, watch for the review phase.
 
 **Expected**
@@ -145,7 +145,7 @@ git branch -D work/<module>
 
 **Failure signs**
 
-- Only one reviewer for a four-file change.
+- Only one reviewer for a critical-path change.
 - The second reviewer receives the first reviewer's findings before producing its own.
 - A reviewer edits files (it should have no edit permission).
 - APPROVE without a verifier PASS.

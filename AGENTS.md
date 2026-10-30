@@ -109,14 +109,20 @@ Do not paste the conversation history into the child. Give paths and constraints
 
 ## 11. Review protocol
 
-- One review: <=2 files, <=80 lines, no critical path -> `reviewer-correctness`.
-- A/B: anything larger -> `reviewer-correctness` + `reviewer-adversarial` in parallel.
-- Critical paths: auth, payments, migrations, public API, concurrency -> A/B + full tests, regardless of size.
+- Default: one `reviewer-correctness` for every non-critical change.
+- A/B only for: critical paths (auth / payments / migrations / public API / concurrency), diff > 5 files or > 300 lines, or an explicit user request.
 - A/B must be independent: different prompts, different contexts, no shared findings. The orchestrator deduplicates and adjudicates.
 - Reviewers are read-only and do not run tests; `verifier` owns tests.
-- A BLOCKER goes back to `worker`. Decide conflicts with evidence, not votes.
-- Completion gate: `verifier` PASS; large changes also need reviewer APPROVE.
+- Review is a gate, not a loop. At most 2 rounds:
+  - Round 1 fixes BLOCKER / MAJOR only.
+  - Round 2 confirms the fix; no scope expansion.
+  - After round 2, record remaining MINOR / NIT and stop.
+  - The same issue twice -> stop and ask the user.
+  - New features, APIs, or refactors raised by a reviewer are follow-ups, not blockers.
+- Completion gate: `verifier` PASS; A/B changes also need reviewer APPROVE.
 - Multi-file tasks must call `reviewer-correctness` at least once; no review means not done.
+- Reviewers must not invent issues; no BLOCKER/MAJOR means APPROVE.
+- Goals need a concrete done-when. Open-ended goals loop; pause them or use a normal task.
 
 ## 12. Worktree protocol
 

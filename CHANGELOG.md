@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 - 2026-10-30
+
+- Add GitHub Actions publish workflow with npm trusted publishing (OIDC).
+- Add `docs/publishing.md`.
+
 ## 0.1.0 - 2026-10-30
 
 - npm installer: `npx opencode-agent-doctrine install`.

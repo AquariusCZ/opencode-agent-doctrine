@@ -18,7 +18,7 @@ Configure it once, after the package exists:
 
 ```bash
 npm trust github \
-  --file .github/workflows/publish.yml \
+  --file publish.yml \
   --repo AquariusCZ/opencode-agent-doctrine \
   --allow-publish
 ```

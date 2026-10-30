@@ -1,5 +1,8 @@
 # OpenCode Agent Doctrine
 
+[![npm](https://img.shields.io/npm/v/opencode-agent-doctrine.svg)](https://www.npmjs.com/package/opencode-agent-doctrine)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A small, auditable multi-agent setup for [OpenCode](https://opencode.ai) V2.
 
 It is **not a plugin** and **not a framework**. It is a set of agent definitions, one doctrine file, and a config snippet you can read end-to-end in ten minutes.
@@ -63,6 +66,16 @@ orchestrator (read / plan / delegate)
 3. Add the config snippet from `config/opencode.example.jsonc` to your `~/.config/opencode/opencode.jsonc`.
 4. Reload OpenCode (`/reload` or restart the app).
 5. Run `opencode debug agents` and confirm the eight agents appear.
+
+### npm
+
+```bash
+npx opencode-agent-doctrine install
+npx opencode-agent-doctrine install --dry-run
+npx opencode-agent-doctrine uninstall
+```
+
+The npm package is an installer, not a plugin. It copies the same files as the scripts and never edits `opencode.jsonc`.
 
 ### Script
 

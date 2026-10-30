@@ -1,0 +1,52 @@
+{
+  "name": "opencode-agent-doctrine",
+  "version": "0.1.0",
+  "description": "A minimal, auditable multi-agent doctrine for OpenCode V2.",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "bin/cli.js",
+  "bin": {
+    "opencode-agent-doctrine": "bin/cli.js"
+  },
+  "files": [
+    "agents/",
+    "bin/",
+    "config/",
+    "docs/",
+    "tests/",
+    "AGENTS.md",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md",
+    "install.ps1",
+    "install.sh",
+    "uninstall.ps1"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node bin/cli.js help"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AquariusCZ/opencode-agent-doctrine.git"
+  },
+  "homepage": "https://github.com/AquariusCZ/opencode-agent-doctrine#readme",
+  "bugs": {
+    "url": "https://github.com/AquariusCZ/opencode-agent-doctrine/issues"
+  },
+  "keywords": [
+    "opencode",
+    "ai-agents",
+    "orchestration",
+    "code-review",
+    "worktree",
+    "agent-pack"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

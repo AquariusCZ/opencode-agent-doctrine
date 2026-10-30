@@ -2,6 +2,7 @@
 
 ## 0.1.0 - 2026-10-30
 
+- npm installer: `npx opencode-agent-doctrine install`.
 - Initial release: orchestrator, worker, verifier, scout, merger, researcher, reviewer-correctness, reviewer-adversarial.
 - Doctrine for triage, delegation contract, git-gated worktree parallelism, and risk-proportional A/B review.
 - Install/uninstall scripts for PowerShell and bash.

@@ -215,3 +215,8 @@ This pack differs in scope: it is deliberately small, has no runtime code, and f
 ## License
 
 MIT.
+
+## Publishing
+
+Releases are published from GitHub Actions with npm trusted publishing (OIDC).
+See [`docs/publishing.md`](docs/publishing.md).

@@ -4,7 +4,7 @@
 
 | Surface | Version | Status |
 |---|---|---|
-| OpenCode | 2.2.3, Windows 11 | tested |
+| OpenCode | 2.2.3 and 2.2.5, Windows 11 | tested |
 | OpenCode | 2.2.x, macOS / Linux | expected to work, untested |
 | OpenCode | V1 (1.x) | **not supported** |
 | DeepSeek V4.1 Flash 1017 | as shipped by provider | tested |
@@ -14,6 +14,10 @@
 | bash | 5.x | expected; install script is unchanged from the tested layout |
 
 "Tested" means the four scenarios in [`verification.md`](verification.md) were run end to end on that surface. It does not mean every OpenCode feature or every provider was exercised.
+
+## OpenCode 2.2.5
+
+The Code Mode catalog no longer exposes `worktree_remove`. `merger` removes a clean worktree directory with the shell after the worker session has moved back. Git registration and branches are cleaned normally; if a session handle locks the directory, cleanup is reported as `BLOCKED` and the empty directory can be removed after an app restart.
 
 ## Why V1 is not supported
 

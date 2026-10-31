@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.5 - 2026-10-30
+
+- Handle OpenCode 2.2.5 removing `worktree_remove` from Code Mode: `merger` falls back to shell cleanup and reports BLOCKED when the directory is locked.
+- Re-verify the five smoke scenarios on OpenCode 2.2.5.
+
 ## 0.1.4 - 2026-10-30
 
 - Add a task graph convention with `depends_on` dependencies.

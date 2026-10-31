@@ -31,7 +31,10 @@ permissions:
    - 语义冲突不猜，停止并报告冲突文件
 5. 每合一个分支跑一次测试；失败停止并报告。
 6. 全部合并后跑 full test。
-7. 成功后用 `worktree_remove` 清理 worktree（不 force，除非调用者明确要求）。如果目录被 session 句柄占用，先让调用者把对应 session 移回主工作区，再 remove；不要 force 删除用户数据。
+7. 成功后清理 worktree：
+   - 优先用 `worktree_remove`（如果当前 OpenCode 版本提供）。
+   - 如果 `worktree_remove` 不可用（OpenCode 2.2.5 的 Code Mode 目录没有它），用 shell 删除空目录：`Remove-Item -LiteralPath <worktree dir> -Recurse -Force`（Windows）或 `rm -rf <dir>`；只在确认没有未提交/未合并工作时执行。
+   - 如果目录被 session 句柄占用，先让调用者把对应 session 移回主工作区，再删；仍失败则报告 BLOCKED 和路径，不要杀进程、不要 force 删除用户数据。
 8. 合并成功后删除已合并的模块分支（`git branch -d <branch>`），除非调用者要求保留。
 9. 报告合并的 commit、测试结果、清理结果。
 

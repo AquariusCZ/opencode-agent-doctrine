@@ -55,7 +55,7 @@ orchestrator (read / plan / delegate)
 
 ### Requirements
 
-- OpenCode 2.2.3 (tested). Newer 2.2.x is expected to work but is untested. V1 is not supported.
+- OpenCode 2.2.3 and 2.2.5 (tested). Newer 2.2.x is expected to work but is untested. V1 is not supported.
 - Git, for the parallel mode. Without git the pack runs serially.
 - A model with reliable tool use. Tested with DeepSeek V4.1 Flash 1017; other models should work but are untested.
 
@@ -195,7 +195,7 @@ See [`docs/verification.md`](docs/verification.md) for commands and evidence.
 
 | Surface | Status |
 |---|---|
-| OpenCode 2.2.3 (Windows 11) | tested |
+| OpenCode 2.2.3 and 2.2.5 (Windows 11) | tested |
 | OpenCode 2.2.x (macOS/Linux) | expected, untested |
 | OpenCode V1 | not supported |
 | DeepSeek V4.1 Flash 1017 | tested |

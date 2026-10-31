@@ -12,6 +12,8 @@ What this document is not:
 
 Environment for all runs: OpenCode 2.2.3, Windows 11, DeepSeek V4.1 Flash 1017, PowerShell 7.
 
+> Re-run on OpenCode 2.2.5 (2026-10-30): scenarios 1–5 pass. The only deviation is empty worktree directories after cleanup, handled by the 0.1.5 shell fallback.
+
 The transcripts below are summaries: agent counts, verdicts, branches, and where behaviour diverged. They are not raw terminal captures.
 
 ## Setup

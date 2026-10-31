@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4 - 2026-10-30
+
+- Add a task graph convention with `depends_on` dependencies.
+- Add a spawn circuit breaker and rate-limit backoff.
+- Add merge overlap checks, branch preservation, and WIP commits before cleanup.
+- Document the scheduling protocol and the overlapping-branches test.
+
 ## 0.1.3 - 2026-10-30
 
 - Add a concrete adversarial checklist (deleted tests, weakened CI, new dependencies, network calls, permission widening, destructive commands).

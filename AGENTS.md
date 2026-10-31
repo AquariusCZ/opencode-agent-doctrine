@@ -132,3 +132,12 @@ Do not paste the conversation history into the child. Give paths and constraints
 4. The orchestrator moves each worker session back.
 5. `merger` verifies each worktree is clean, merges in dependency order, runs tests, deletes merged branches, removes worktrees.
 6. `verifier` checks the merged result; reviewers run on the merged diff.
+
+## 13. Scheduling protocol
+
+- **Task graph.** For multi-task work, write dependencies before dispatch: `#1 ...`, `#2 [dep:#1] ...`. Only dispatch tasks whose dependencies are complete; stop on a cycle.
+- **Concurrency.** At most 3 writers and 6 read-only agents. On provider 429/rate limits, back off and serialize; do not add agents.
+- **Spawn circuit breaker.** Three consecutive spawn failures with the same error stop the task; report to the user instead of retrying.
+- **Merge overlap.** Before merging, compare each branch's changed files with the main working tree and with other branches. Overlapping files merge serially with tests after each; semantic conflicts are reported, not guessed.
+- **Branch preservation.** Before removing a worktree or aborting a session, preserve uncommitted or unmerged work on a `preserved/<module>` branch. Never delete the only copy.
+- **Merge semantics.** `merger` merges and tests; committing and pushing the final result is an explicit step.

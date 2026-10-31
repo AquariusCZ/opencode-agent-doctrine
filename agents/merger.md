@@ -14,7 +14,15 @@ permissions:
 - 每个分支对应的 worktree 路径
 - 测试命令
 
+合并前检查：
+- 对每个分支运行 `git diff --name-only <base>...<branch>`，得到 changed files。
+- 对比主工作区未提交改动（`git diff --name-only`）和已合并改动（`git diff --name-only <base>...HEAD`）。
+- 两个分支的 changed files 有交集，或与主工作区未提交改动有交集：不要直接 merge；按依赖顺序串行合并，每合一个跑测试；语义冲突报告 BLOCKED。
+- worktree 有未提交改动：先 commit 到 `preserved/<module>` 分支，或 BLOCKED；不要删唯一副本。
+
 流程：
+清理前：
+- 如果 worktree 有未提交改动或未合并 commit，先创建 `preserved/<module>` 分支（`git branch preserved/<module> <branch>` 或提交 WIP），报告分支名；确认已合并或已 preserve 后才 worktree_remove。
 1. 对每个 worktree 检查 `git status --porcelain`；不干净先 `git add -A && git commit -m "<worktree>: pending changes"`，或返回 BLOCKED，不要合并未提交改动。
 2. 确认主工作区干净（`git status --porcelain` 为空）；不干净立即返回 BLOCKED。
 3. 按顺序 `git merge --no-ff <branch>`。
@@ -34,3 +42,4 @@ CONFLICTS: none | <文件列表>
 TESTS: PASS | FAIL（附命令和关键输出）
 CLEANUP: done | skipped（原因）
 BLOCKED: <原因，如果有>
+PRESERVED: <branch> | none

@@ -128,6 +128,33 @@ opencode
 - A reviewer may return APPROVE with notes. Only BLOCKER-level findings send work back to the worker.
 - If the two reviewers disagree, the orchestrator adjudicates against the code and records the reasoning; it does not average verdicts.
 
+## Scenario 5 - overlapping branches
+
+**Purpose.** Check that `merger` refuses to merge branches that touch the same file, instead of silently overwriting.
+
+**Setup.**
+
+```bash
+mkdir <repo> && cd <repo>
+git init -b main
+printf 'base\n' > shared.txt
+git add -A && git commit -m baseline
+git checkout -b branch-a
+printf 'A\n' > shared.txt
+git commit -am "a: A"
+git checkout main
+git checkout -b branch-b
+printf 'B\n' > shared.txt
+git commit -am "b: B"
+git checkout main
+```
+
+**Expected.** `merger` reports `OVERLAP: shared.txt` and `VERDICT: BLOCKED`; no merge commit is created.
+
+**Observed.** Both branches changed `shared.txt`; `merger` reported `CHANGED_A: shared.txt`, `CHANGED_B: shared.txt`, `OVERLAP: shared.txt`, `VERDICT: BLOCKED`, and did not merge.
+
+**Known deviations.** The overlap check is a prompt-level rule, not a code hook. A model can ignore it; this test verifies the contract, not enforcement.
+
 ## Deviation summary
 
 | Symptom | Likely cause | Fix |
@@ -140,4 +167,4 @@ opencode
 
 ## Reproducing
 
-Run the four scenarios in order on a fresh temporary repo. A pass means: the agent count and order match the "Expected" section, the verifier verdict is PASS, and no agent wrote outside its scope. Record your OpenCode version, OS, and model alongside the result; behaviour is model-dependent and the matrix in [`compatibility.md`](compatibility.md) is version-specific.
+Run the five scenarios in order on a fresh temporary repo. A pass means: the agent count and order match the "Expected" section, the verifier verdict is PASS, and no agent wrote outside its scope. Record your OpenCode version, OS, and model alongside the result; behaviour is model-dependent and the matrix in [`compatibility.md`](compatibility.md) is version-specific.

@@ -169,9 +169,15 @@ Flow:
 6. `verifier` runs the full check on the merged result.
 7. Reviewers run on the merged diff.
 
+## Scheduling
+
+Multi-task work uses a small task graph: dependencies are written as `#2 [dep:#1]`, and the orchestrator only dispatches tasks whose dependencies are complete. Concurrency is capped at three writers and six read-only agents. A spawn circuit breaker stops after three consecutive failures with the same error.
+
+Before merging, `merger` compares the changed files of each branch with the main working tree and with the other branches. Overlapping files merge serially with tests after each; semantic conflicts are reported. Uncommitted or unmerged work is preserved on a `preserved/<module>` branch before a worktree is removed.
+
 ## Verification
 
-Tested on OpenCode 2.2.3, Windows 11, DeepSeek V4.1 Flash 1017. Four scenarios:
+Tested on OpenCode 2.2.3, Windows 11, DeepSeek V4.1 Flash 1017. Five scenarios:
 
 | Scenario | Result |
 |---|---|
@@ -179,6 +185,7 @@ Tested on OpenCode 2.2.3, Windows 11, DeepSeek V4.1 Flash 1017. Four scenarios:
 | single edit | one worker; read-back verification |
 | 2-file parallel | scout -> 2 worktrees -> 2 workers -> merge -> verifier PASS -> reviewer APPROVE |
 | 4-file change | one worker -> verifier PASS -> two reviewers in parallel, both APPROVE |
+| overlapping branches | merger reported `OVERLAP: shared.txt`, `VERDICT: BLOCKED`, no merge commit |
 
 See [`docs/verification.md`](docs/verification.md) for commands and evidence.
 

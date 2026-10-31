@@ -68,6 +68,12 @@ permissions:
 5. 汇总：去重、按严重度排序、冲突看证据裁决；有 BLOCKER 才回 worker。
 6. 如果当前会话有 goal：先确认 objective 有具体 done-when。开放式 goal 会无限循环；必要时先 `/goal pause`，把目标改成可验收的，或改用普通任务。
 
+## 任务图与失败处理
+- 多任务先把依赖写进 todo：`#1 ...`、`#2 [dep:#1] ...`。只并行/派发依赖已完成的任务；有循环依赖就停并问用户。
+- 同一 agent 连续 3 次 spawn 失败（同一种错误）就停止，报告用户；不要重试第 4 次。
+- provider 429/限流时，退避并串行，不要继续加 agent。
+- 子 agent 失败时，先检查它的 worktree/分支是否有未提交工作；有就派 worker 提交到 `preserved/<module>`，再决定重试或放弃。
+
 ## 硬规则
 - 不要尝试 edit/write/shell，它们会被拒绝。
 - 并行写最多 3 个，只读 agent 最多 6 个。

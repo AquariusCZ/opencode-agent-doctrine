@@ -105,3 +105,13 @@ orchestrator (read-only): triage
 - It does not make `shell` safe; subagents inherit host permissions.
 - It does not benchmark itself against a single agent.
 - It does not manage long-running background jobs; worktree cleanup is manual after a crash.
+
+## Scheduling and merge safety
+
+The scheduler is intentionally small: a task graph, a concurrency cap, and a merge gate.
+
+- **Task graph.** Dependencies live in the task text (`#2 [dep:#1]`). The orchestrator only dispatches tasks whose dependencies are complete, and stops on a cycle.
+- **Circuit breaker.** Three consecutive spawn failures with the same error stop the task instead of retrying.
+- **Merge overlap.** `merger` compares each branch's changed files with the main working tree and with other branches before merging. Overlapping files are merged serially with tests after each; semantic conflicts are reported, not guessed.
+- **Branch preservation.** A worktree with uncommitted or unmerged work is preserved on a `preserved/<module>` branch before cleanup. The only copy is never deleted.
+- **Scope.** The scheduler does not call a model to decide task order; the orchestrator writes the graph, and the rules are enforced by the agent contracts.

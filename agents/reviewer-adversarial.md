@@ -19,6 +19,16 @@ permissions:
 - 失败模式：超时、重试、磁盘满、网络断
 - 回滚：出问题能否安全回退
 
+具体检查（只有 diff 里确实出现才报告，且必须给 file:line）：
+- 删除/弱化测试或断言（skip、注释、放宽 expect、只改 mock）
+- CI/workflow 放宽（删检查、`|| true`、权限扩大、跳过 lint/test）
+- 新增依赖、install/postinstall 脚本、远程下载
+- 新增网络请求、外部端点、遥测
+- 权限规则放宽、密钥/token 出现在代码或日志
+- 破坏性命令（reset --hard、force push、批量删除）
+- 新增 TODO/FIXME 但没有对应 issue
+清单外、只是「可能更好」的：标 NIT，不阻塞。
+
 输出：
 LENS: adversarial
 VERDICT: APPROVE | BLOCK

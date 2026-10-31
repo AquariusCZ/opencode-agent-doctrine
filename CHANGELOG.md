@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 - 2026-10-30
+
+- Add a concrete adversarial checklist (deleted tests, weakened CI, new dependencies, network calls, permission widening, destructive commands).
+- Require workers to verify `pwd` after `session_move` and report it; reject mismatched worktrees.
+
 ## 0.1.2 - 2026-10-30
 
 - Tighten review: default single correctness review; A/B only for critical paths, >5 files/300 lines, or explicit request.

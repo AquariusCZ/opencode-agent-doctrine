@@ -1,6 +1,6 @@
 {
   "name": "opencode-agent-doctrine",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A minimal, auditable multi-agent doctrine for OpenCode V2.",
   "license": "MIT",
   "type": "commonjs",

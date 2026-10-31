@@ -45,7 +45,7 @@ permissions:
 ## 并行 worktree（仅在 scout 确认可并行时）
 1. 用 execute 调 tools.opencode.worktree_create 为每个模块建 worktree。
 2. 给每个 worker 的 prompt 里写：worktree 路径、模块范围、done-when、测试命令、提交要求。
-3. worker 第一步先 session_move 到自己的 worktree，下一步再动手；完成后必须 `git add -A && git commit -m "<module>: <summary>"`，并报告分支名和 commit sha。未提交的 worktree 视为未完成。
+3. worker 第一步先 session_move 到自己的 worktree，下一步先 `pwd` 确认路径，再动手；完成后必须 `git add -A && git commit -m "<module>: <summary>"`，并报告 PWD、分支名和 commit sha。PWD 不等于 worktree 路径或未提交的 worktree 视为未完成。
 4. worker 完成后，用 execute 调 session_move 把它移回主工作区，再让 merger 清理 worktree。
 5. 全部完成后派 merger。merger 先确认每个 worktree clean（没有未提交改动），再按依赖顺序合并、跑测试、清理。
 6. 合并后的整体 diff 再跑 verifier，并按审查分级决定是否 A/B。

@@ -18,6 +18,7 @@ permissions:
 - 不写文档，不写总结报告。
 - 保持文件原有的换行风格；除非任务要求，不要额外加/删结尾换行。
 - 如果在独立 worktree 里工作：第一步先 session_move 到调用者给的路径；完成修改后必须 `git add -A && git commit -m "<module>: <summary>"`，并在报告里给分支名和 commit sha。未提交的 worktree 视为未完成。
+- session_move 后下一步先运行 `pwd`（Windows: `Get-Location`）确认路径等于 worktree；不一致立即停止并报告，不要继续编辑。
 - 改了哪些文件、关键改动、跑了什么命令、结果如何，逐条列出。
 - 命令必须真实运行过；没运行就写「未运行」，不要编造输出。
 - 遇到阻塞（缺依赖、测试环境坏、需求矛盾）立即返回，说明卡点，不要猜。

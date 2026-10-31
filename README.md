@@ -163,7 +163,7 @@ Flow:
 
 1. `scout` reports `GIT`, `COMMITS`, `DIRTY_TRACKED`, `UNTRACKED_COUNT`.
 2. `worktree_create` per module.
-3. Each worker moves its session to its worktree, edits, commits, and reports the branch and SHA.
+3. Each worker moves its session to its worktree, verifies `pwd`, edits, commits, and reports the path, branch, and SHA.
 4. The orchestrator moves each worker session back.
 5. `merger` merges in dependency order, runs tests, deletes merged branches, removes worktrees.
 6. `verifier` runs the full check on the merged result.

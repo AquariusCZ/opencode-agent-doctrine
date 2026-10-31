@@ -104,7 +104,7 @@ Do not run these on a repository with uncommitted work you care about.
 
 1. `scout` runs first and reports `GIT=yes`, `COMMITS>=1`, `DIRTY_TRACKED=0`, `UNTRACKED_COUNT=0`.
 2. Two worktrees are created outside the repo (under the configured worktree directory).
-3. Two workers run concurrently. Each moves into its worktree, creates a branch (`git switch -c work/<module>`), edits one file, commits, and reports branch + SHA.
+3. Two workers run concurrently. Each moves into its worktree, verifies `pwd`, creates a branch (`git switch -c work/<module>`), edits one file, commits, and reports path + branch + SHA.
 4. Each worker session is moved back to the main directory.
 5. `merger` merges both branches, runs `<check>`, deletes merged branches, removes worktrees.
 6. `verifier` runs `<check>` on the merged result: PASS.
